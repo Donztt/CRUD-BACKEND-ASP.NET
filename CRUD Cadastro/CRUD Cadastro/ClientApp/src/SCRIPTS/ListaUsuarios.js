@@ -1,9 +1,12 @@
-﻿const tbody = document.querySelector("tbody");
+﻿import { path } from "../Index.js";
+
+const tbody = document.querySelector("tbody");
 
 let itens;
 
 function getPessoas() {
-  fetch("https://localhost:5001/api/Pessoa")
+  console.log(path);
+  fetch(path + "/api/Pessoa")
     .then((response) => {
       return response.json();
     })
@@ -16,13 +19,17 @@ function getPessoas() {
     });
 }
 
-function handleChangeUser(id) {
-  window.location.href = "/AlteracaoDeDados/" + id;
+function deleteItem(id) {
+  if (!window.confirm("Você deseja realmente deletar este usuário?")) {
+    return;
+  }
+  fetch("api/Pessoa/" + id, { method: "delete" }).then(() => {
+    alert("Usuário deletado com Sucesso!");
+  });
 }
 
 function insertItem(item, index) {
   let tr = document.createElement("tr");
-
   tr.innerHTML = `
     <td>${item.nome}</td>
     <td>${item.cpf}</td>
@@ -31,10 +38,10 @@ function insertItem(item, index) {
     <td>${item.endereco}</td>
     <td>${item.cel}</td>
     <td class="acao">
-      <button onclick="editItem(${index})"><i class='bx bx-edit' ></i></button>
+      <button onclick="location.href='./AlteracaoDados.html?id=${item.id}'"><i class='bx bx-edit' ></i></button>
     </td>
     <td class="acao">
-      <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
+      <button onclick="deleteItem(${item.id})"><i class='bx bx-trash'></i></button>
     </td>
   `;
   tbody.appendChild(tr);

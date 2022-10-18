@@ -1,0 +1,21 @@
+﻿.navbar li {
+    font-size: 1.3em;
+    margin-left: 40px;
+    margin-right: 40px;
+    color: black;
+}
+
+.navbar a:hover {
+    opacity: 0.5;
+}
+
+.navbar a {
+    text-decoration: none;
+    border-bottom: 0;
+    border-color: none;
+}
+
+.navbar {
+    background-color: lightgray;
+    filter: drop-shadow(0 6px 6px #011531);
+}

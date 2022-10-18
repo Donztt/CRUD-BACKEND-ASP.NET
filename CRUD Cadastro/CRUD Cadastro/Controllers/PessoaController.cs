@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CRUD_Cadastro.Settings;
 using CRUD_Cadastro.Model;
+using CRUD_Cadastro.DTO;
 
 namespace CRUD_Cadastro.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Pessoa")]
     [ApiController]
     public class PessoaController : ControllerBase
     {
@@ -20,15 +21,11 @@ namespace CRUD_Cadastro.Controllers
         {
             _context = context;
         }
-
-        // GET: api/Pessoas
         [HttpGet]
         public async Task<List<Pessoa>> GetPessoa()
         {
             return await  _context.Pessoa.ToListAsync();
         }
-
-        // GET: api/Pessoas/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Pessoa>> GetPessoa(int id)
         {
@@ -42,35 +39,20 @@ namespace CRUD_Cadastro.Controllers
             return Pessoa;
         }
 
-        // PUT: api/Pessoas/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPessoa(int id,[FromForm]Pessoa pessoa)
+        [HttpPost("/update")]
+        public async Task<IActionResult> Update([FromBody] PessoaDTO pessoa)
         {
-            if (id != pessoa.Id)
+            try
+            {
+                _context.Update(pessoa.toPessoa());
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
 
-            _context.Entry(pessoa).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PessoaExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
         [HttpPost]
@@ -80,7 +62,7 @@ namespace CRUD_Cadastro.Controllers
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetPessoa", new { id = pessoa.Id }, pessoa);
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("/delete/{id}")]
         public async Task<IActionResult> DeletePessoa(int id)
         {
             var Pessoa = await _context.Pessoa.FindAsync(id);

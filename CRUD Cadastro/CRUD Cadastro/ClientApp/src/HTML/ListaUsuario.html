@@ -10,9 +10,27 @@
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../CSS/ListaUsuarios.css">
     <link rel="stylesheet" href="../CSS/Default.css">
+    <link rel="stylesheet" href="../CSS/Nav.css">
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="nav mx-auto">
+                    <a href="./Login.html">
+                        <li class="nav-item">Login</li>
+                    </a>
+                    <a href="./ListaUsuario.html">
+                        <li class="nav-item">Listagem de Usuários</li>
+                    </a>
+                    <a href="./Cadastro.html">
+                        <li class="nav-item">Cadastre-se</li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div id="tableItens">
         <table class='table' aria-labelledby="tabelLabel">
             <thead>
@@ -29,7 +47,7 @@
             </tbody>
         </table>
     </div>
-    <script src="../SCRIPTS/ListaUsuarios.js"></script>
+    <script type="module" src="../SCRIPTS/ListaUsuarios.js"></script>
 </body>
 
 </html>
