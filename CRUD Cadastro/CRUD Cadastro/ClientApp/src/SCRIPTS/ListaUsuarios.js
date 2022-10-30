@@ -7,7 +7,7 @@ let itens;
 function getPessoas() {
   axios({
     method: "get",
-    url: path + "/api/Pessoa",
+    url: path + "/pessoas",
   })
     .then((pessoas) => {
       itens = pessoas.data;

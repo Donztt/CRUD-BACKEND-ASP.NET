@@ -11,7 +11,7 @@ using CRUD_Cadastro.DTO;
 
 namespace CRUD_Cadastro.Controllers
 {
-    [Route("api/Pessoa")]
+    [Route("/Pessoa")]
     [ApiController]
     public class PessoaController : ControllerBase
     {
@@ -21,7 +21,7 @@ namespace CRUD_Cadastro.Controllers
         {
             _context = context;
         }
-        [HttpGet]
+        [HttpGet("/pessoas")]
         public async Task<List<Pessoa>> GetPessoa()
         {
             return await  _context.Pessoa.ToListAsync();
@@ -76,18 +76,6 @@ namespace CRUD_Cadastro.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        [HttpPost(template: "Login")]
-        public async Task<IActionResult> Login(string login)
-        {
-            var loginResponse = await _context.Pessoa.FindAsync(login);
-            if (loginResponse == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(login); 
         }
 
         private bool PessoaExists(int id)

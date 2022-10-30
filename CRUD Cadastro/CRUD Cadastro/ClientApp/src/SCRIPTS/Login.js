@@ -1,36 +1,23 @@
-﻿class Login {
-  constructor() {
-    super();
-    this.intialize();
-    this.HandleLogin = this.HandleLogin.bind(this);
-    this.handleLoginChange = this.handleLoginChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-  }
+﻿let login = document.querySelector("#loginField");
+let senha = document.querySelector("#senhaField");
 
-  async intialize() {
-    this.state = { login: "" };
-    this.state = { password: "" };
-  }
+const loginButton = document.querySelector("#LoginButton");
 
-  handleLoginChange(e) {
-    this.setState({ login: e.target.value });
-  }
-  handlePasswordChange(e) {
-    this.setState({ password: e.target.value });
-  }
+loginButton.onclick = () => {
+  AuthLogin();
+};
 
-  async HandleLogin(event) {
-    event.preventDefault();
-
-    const response = await fetch(
-      "api/Login/Login/" + this.state.login + "," + this.state.password
-    );
-    const data = await response.json();
-
-    if (data.title == "Bad Request") {
-      alert("senha ou usuário incorreto");
-    } else {
-      this.props.history.push("/dadosUsuario/" + data.pessoa_id);
-    }
-  }
-}
+const AuthLogin = () => {
+  axios({
+    method: "get",
+    url: "https://localhost:5001/AuthLogin",
+    data: {
+      login: login.value,
+      senha: senha.value,
+    },
+  })
+    .then((resp) => {
+      alert(resp);
+    })
+    .catch(() => alert("Usuário ou senha inválido"));
+};
