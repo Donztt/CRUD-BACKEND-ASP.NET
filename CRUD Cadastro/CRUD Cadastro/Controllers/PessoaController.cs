@@ -39,12 +39,12 @@ namespace CRUD_Cadastro.Controllers
             return Pessoa;
         }
 
-        [HttpPost("/update")]
+        [HttpPost("/updatePessoa")]
         public async Task<IActionResult> Update([FromBody] PessoaDTO pessoa)
         {
             try
             {
-                _context.Update(pessoa.toPessoa());
+                _context.Pessoa.Update(pessoa.toPessoa());
                 await _context.SaveChangesAsync();
                 return Ok();
             }
@@ -55,14 +55,15 @@ namespace CRUD_Cadastro.Controllers
 
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Pessoa>> PostPessoa([FromForm] Pessoa pessoa)
+        [HttpPost("/PostPessoa")]
+        public async Task<IActionResult> PostPessoa([FromBody] PessoaDTO pessoa)
         {
-            _context.Pessoa.Add(pessoa);
+            var pessoaResult = _context.Pessoa.Add(pessoa.toPessoa());
+            _context.Login.Add(pessoa.toLogin(pessoaResult.Entity.Id));
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetPessoa", new { id = pessoa.Id }, pessoa);
+            return Ok();
         }
-        [HttpDelete("/delete/{id}")]
+        [HttpPost("/deletePessoa/{id}")]
         public async Task<IActionResult> DeletePessoa(int id)
         {
             var Pessoa = await _context.Pessoa.FindAsync(id);

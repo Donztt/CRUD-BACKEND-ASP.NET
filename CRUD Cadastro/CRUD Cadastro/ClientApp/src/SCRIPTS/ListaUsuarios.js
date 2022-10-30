@@ -5,17 +5,16 @@ const tbody = document.querySelector("tbody");
 let itens;
 
 function getPessoas() {
-  console.log(path);
-  fetch(path + "/api/Pessoa")
-    .then((response) => {
-      return response.json();
-    })
-    .then(function (data) {
-      itens = data;
+  axios({
+    method: "get",
+    url: path + "/api/Pessoa",
+  })
+    .then((pessoas) => {
+      itens = pessoas.data;
       loadItens();
     })
     .catch((err) => {
-      console.log(err);
+      alert(err);
     });
 }
 
@@ -23,8 +22,13 @@ function deleteItem(id) {
   if (!window.confirm("Você deseja realmente deletar este usuário?")) {
     return;
   }
-  fetch("api/Pessoa/" + id, { method: "delete" }).then(() => {
+
+  axios({
+    method: "post",
+    url: path + "/deletePessoa/" + id,
+  }).then(() => {
     alert("Usuário deletado com Sucesso!");
+    window.location.replace("/src/HTML/ListaUsuario.html");
   });
 }
 
@@ -39,9 +43,6 @@ function insertItem(item, index) {
     <td>${item.cel}</td>
     <td class="acao">
       <button onclick="location.href='./AlteracaoDados.html?id=${item.id}'"><i class='bx bx-edit' ></i></button>
-    </td>
-    <td class="acao">
-      <button onclick="deleteItem(${item.id})"><i class='bx bx-trash'></i></button>
     </td>
   `;
   tbody.appendChild(tr);

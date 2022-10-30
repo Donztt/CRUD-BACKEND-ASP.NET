@@ -21,14 +21,12 @@ namespace CRUD_Cadastro.Controllers
             _context = context;
         }
 
-        // GET: api/Login
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Login>>> GetLogin()
         {
             return await _context.Login.ToListAsync();
         }
 
-        // GET: api/Login/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Login>> GetLogin(int id)
         {
@@ -65,8 +63,6 @@ namespace CRUD_Cadastro.Controllers
             }
         }
 
-        // PUT: api/login/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLogin(int id,[FromForm] Login login)
         {
@@ -96,8 +92,6 @@ namespace CRUD_Cadastro.Controllers
             return NoContent();
         }
 
-        // POST: api/Login
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Login>> PostLogin([FromForm] Login login)
         {
@@ -106,7 +100,6 @@ namespace CRUD_Cadastro.Controllers
             return CreatedAtAction("GetLogin", new { id = login.Id }, login);
         }
 
-        // DELETE: api/Login/5
         [HttpDelete("{Pessoaid}")]
         public async Task<IActionResult> Deletelogin(int Pessoaid)
         {

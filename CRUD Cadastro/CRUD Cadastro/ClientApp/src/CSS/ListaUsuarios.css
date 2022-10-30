@@ -1,12 +1,13 @@
-﻿#tableItens{
-    margin-top: 50;
+﻿#tableItens {
+    margin-top: 150;
     width: 80%;
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin-right: auto; 
+    margin-right: auto;
     margin-left: auto;
 }
+
 #UserList h3 {
     color: azure;
     margin: 0 auto;
@@ -15,17 +16,22 @@
     margin-bottom: 5px;
     font-weight: bold;
 }
+
 #UserList p {
     color: azure;
 }
+
 #PeopleList:hover {
     background-color: cornflowerblue;
 }
+
 table {
     background-color: none;
     border-bottom: 1px solid;
     border-color: azure;
 }
-#UserList th,td {
+
+#UserList th,
+td {
     color: azure;
 }
