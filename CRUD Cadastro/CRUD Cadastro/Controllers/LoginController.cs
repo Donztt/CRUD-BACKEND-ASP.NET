@@ -11,7 +11,6 @@ using CRUD_Cadastro.DTO;
 
 namespace CRUD_Cadastro.Controllers
 {
-    [Route("/Login")]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -22,30 +21,24 @@ namespace CRUD_Cadastro.Controllers
             _context = context;
         }
 
-
-        [HttpGet("/AuthLogin")]
-        public async Task<ActionResult<Login>> AutLogin([FromBody] LoginDTO loginDTO)
+        [HttpPost("/AuthLogin")]
+        public async Task<ActionResult<Login>> AuthLogin([FromBody] LoginDTO loginDTO)
         {
-            try
-            {
-                var Login = await _context.Login.FirstAsync(e => e.LoginNome == loginDTO.login);
+            var login = await _context.Login
+                .Where(e => e.LoginNome == loginDTO.login)
+                .Where(e => e.Senha == loginDTO.senha)
+                .FirstAsync();
 
-                if (loginDTO.senha == Login.Senha)
-                {
-                    return Ok(Login);
-                }
-                else
-                {
-                    return BadRequest();
-                }
+            if (login != null)
+            {
+                return Ok(login);
             }
-            catch (Exception)
+            else
             {
-
                 return BadRequest();
             }
         }
-
+      
         private bool LoginExists(int id)
         {
             return _context.Login.Any(e => e.Id == id);

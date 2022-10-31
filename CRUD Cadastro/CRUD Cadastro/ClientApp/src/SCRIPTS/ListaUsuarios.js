@@ -54,4 +54,5 @@ function loadItens() {
     insertItem(item, index);
   });
 }
+
 getPessoas();

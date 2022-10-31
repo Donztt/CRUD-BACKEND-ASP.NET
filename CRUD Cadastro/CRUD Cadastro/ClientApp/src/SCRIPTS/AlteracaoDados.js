@@ -26,7 +26,7 @@ btnDelete.onclick = () => {
 const chargePeople = () => {
   axios({
     method: "get",
-    url: path + "/api/Pessoa/" + pessoaid,
+    url: path + "/Pessoa/" + pessoaid,
   }).then((pessoa) => {
     id = pessoa.data.id;
     nome.value = pessoa.data.nome;

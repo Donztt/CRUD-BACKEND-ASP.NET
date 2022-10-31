@@ -9,7 +9,7 @@ loginButton.onclick = () => {
 
 const AuthLogin = () => {
   axios({
-    method: "get",
+    method: "post",
     url: "https://localhost:5001/AuthLogin",
     data: {
       login: login.value,
@@ -17,7 +17,10 @@ const AuthLogin = () => {
     },
   })
     .then((resp) => {
-      alert(resp);
+      console.log(resp.data);
+      window.location.replace(
+        "/src/HTML/DadosUsuario.html?id=" + resp.data.pessoa_id
+      );
     })
     .catch(() => alert("Usuário ou senha inválido"));
 };

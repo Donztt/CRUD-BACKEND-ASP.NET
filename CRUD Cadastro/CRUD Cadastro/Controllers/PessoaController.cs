@@ -11,7 +11,6 @@ using CRUD_Cadastro.DTO;
 
 namespace CRUD_Cadastro.Controllers
 {
-    [Route("/Pessoa")]
     [ApiController]
     public class PessoaController : ControllerBase
     {
@@ -21,12 +20,14 @@ namespace CRUD_Cadastro.Controllers
         {
             _context = context;
         }
+
         [HttpGet("/pessoas")]
         public async Task<List<Pessoa>> GetPessoa()
         {
-            return await  _context.Pessoa.ToListAsync();
+            return await _context.Pessoa.ToListAsync();
         }
-        [HttpGet("{id}")]
+
+        [HttpGet("/getPessoa/{id}")]
         public async Task<ActionResult<Pessoa>> GetPessoa(int id)
         {
             var Pessoa = await _context.Pessoa.FindAsync(id);
@@ -63,6 +64,7 @@ namespace CRUD_Cadastro.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
+
         [HttpPost("/deletePessoa/{id}")]
         public async Task<IActionResult> DeletePessoa(int id)
         {
