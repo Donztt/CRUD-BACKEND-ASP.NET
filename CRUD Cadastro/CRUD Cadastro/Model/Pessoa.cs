@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CRUD_Cadastro.DTO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -25,5 +26,19 @@ namespace CRUD_Cadastro.Model
         public string Endereco { get; set; }
         [Column("CEL")]
         public string Cel { get; set; }
+
+        public PessoaDTO toDTO() {
+            return new PessoaDTO()
+            {
+                id = this.Id,
+                nome = this.Nome,
+                cep = this.CEP,
+                cpf = this.CPF,
+                cidade = this.Cidade,
+                estado = this.Estado,
+                endereco = this.Endereco,
+                cel = this.Cel
+            };
+        }
     }
 }

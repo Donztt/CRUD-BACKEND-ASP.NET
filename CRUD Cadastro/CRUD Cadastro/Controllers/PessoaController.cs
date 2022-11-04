@@ -8,45 +8,54 @@ using Microsoft.EntityFrameworkCore;
 using CRUD_Cadastro.Settings;
 using CRUD_Cadastro.Model;
 using CRUD_Cadastro.DTO;
+using CRUD_Cadastro.Service;
+using System.Net;
+
 
 namespace CRUD_Cadastro.Controllers
 {
     [ApiController]
     public class PessoaController : ControllerBase
     {
-        private readonly Contexto _context;
+        private PessoaService pessoaService;
 
         public PessoaController(Contexto context)
         {
-            _context = context;
+            pessoaService = new PessoaService(context);
         }
 
         [HttpGet("/pessoas")]
-        public async Task<List<Pessoa>> GetPessoa()
+        public async Task<ActionResult<List<PessoaDTO>>> GetPessoa()
         {
-            return await _context.Pessoa.ToListAsync();
+            try 
+            {
+                return await pessoaService.GetPessoas();
+            }
+            catch (Exception) 
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("/getPessoa/{id}")]
-        public async Task<ActionResult<Pessoa>> GetPessoa(int id)
+        public async Task<ActionResult<PessoaDTO>> GetPessoa(int id)
         {
-            var Pessoa = await _context.Pessoa.FindAsync(id);
-
-            if (Pessoa == null)
+            try 
             {
-                return NotFound();
+                return await pessoaService.GetPessoa(id);
             }
-
-            return Pessoa;
+            catch (Exception) 
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPost("/updatePessoa")]
-        public async Task<IActionResult> Update([FromBody] PessoaDTO pessoa)
+        public async Task<ActionResult> Update([FromBody] PessoaDTO pessoa)
         {
             try
             {
-                _context.Pessoa.Update(pessoa.toPessoa());
-                await _context.SaveChangesAsync();
+                pessoaService.UpdatePessoa(pessoa);
                 return Ok();
             }
             catch (Exception)
@@ -57,32 +66,31 @@ namespace CRUD_Cadastro.Controllers
         }
 
         [HttpPost("/PostPessoa")]
-        public async Task<IActionResult> PostPessoa([FromBody] PessoaDTO pessoa)
+        public async Task<ActionResult> PostPessoa([FromBody] PessoaDTO pessoa)
         {
-            var pessoaResult = _context.Pessoa.Add(pessoa.toPessoa());
-            _context.Login.Add(pessoa.toLogin(pessoaResult.Entity.Id));
-            await _context.SaveChangesAsync();
-            return Ok();
+            try
+            {
+                pessoaService.SetPessoa(pessoa);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPost("/deletePessoa/{id}")]
         public async Task<IActionResult> DeletePessoa(int id)
         {
-            var Pessoa = await _context.Pessoa.FindAsync(id);
-            if (Pessoa == null)
+            try
             {
-                return NotFound();
+                pessoaService.DeletePessoa(id);
+                return Ok();
             }
-
-            _context.Pessoa.Remove(Pessoa);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool PessoaExists(int id)
-        {
-            return _context.Pessoa.Any(e => e.Id == id);
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CRUD_Cadastro.DTO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -17,5 +18,15 @@ namespace CRUD_Cadastro.Model
         public string Senha { get; set; }
         [Column("PESSOA_ID")]
         public int Pessoa_id { get; set; }
+
+        public LoginDTO toDTO()
+        {
+            return new LoginDTO()
+            {
+               login = this.LoginNome,
+               senha = this.Senha
+            };
+        }
     }
+
 }

@@ -8,40 +8,33 @@ using Microsoft.EntityFrameworkCore;
 using CRUD_Cadastro.Settings;
 using CRUD_Cadastro.Model;
 using CRUD_Cadastro.DTO;
+using CRUD_Cadastro.Service;
 
 namespace CRUD_Cadastro.Controllers
 {
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly Contexto _context;
+        private LoginService loginService;
 
         public LoginController(Contexto context)
         {
-            _context = context;
+            loginService = new LoginService(context);
         }
 
         [HttpPost("/AuthLogin")]
-        public async Task<ActionResult<Login>> AuthLogin([FromBody] LoginDTO loginDTO)
+        public async Task<ActionResult<LoginDTO>> AuthLogin([FromBody] LoginDTO loginDTO)
         {
-            var login = await _context.Login
-                .Where(e => e.LoginNome == loginDTO.login)
-                .Where(e => e.Senha == loginDTO.senha)
-                .FirstAsync();
-
-            if (login != null)
+            try
             {
-                return Ok(login);
+                var response = await loginService.Auth(loginDTO);
+                return Ok(response); 
             }
-            else
+            catch (Exception)
             {
                 return BadRequest();
             }
         }
-      
-        private bool LoginExists(int id)
-        {
-            return _context.Login.Any(e => e.Id == id);
-        }
+     
     }
 }
