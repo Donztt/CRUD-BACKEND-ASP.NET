@@ -11,13 +11,13 @@ namespace CRUD_Cadastro.Model
     public class Login
     {
         [Column("ID")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Column("LOGIN")]
         public string LoginNome { get; set; }
         [Column("SENHA")]
         public string Senha { get; set; }
         [Column("PESSOA_ID")]
-        public int Pessoa_id { get; set; }
+        public Guid Pessoa_id { get; set; }
 
         public LoginDTO toDTO()
         {

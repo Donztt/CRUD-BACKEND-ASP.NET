@@ -18,7 +18,7 @@ namespace CRUD_Cadastro.Service
             pessoaRepository = new PessoaRepository(context);
         }
 
-        public async Task<PessoaDTO> GetPessoa(int id)
+        public async Task<PessoaDTO> GetPessoa(Guid id)
         {    
             var pessoa = await pessoaRepository.GetPessoa(id);
             return pessoa.toDTO();
@@ -34,17 +34,17 @@ namespace CRUD_Cadastro.Service
             
             return pessoasDTO;
         }
-        public void SetPessoa(PessoaDTO dto)
+        public async Task SetPessoa(PessoaDTO dto)
         {
-            pessoaRepository.SetPessoa(dto);
+            await pessoaRepository.SetPessoa(dto);
         }
-        public void UpdatePessoa(PessoaDTO dto)
+        public async Task UpdatePessoa(PessoaDTO dto)
         {
-            pessoaRepository.UpdatePessoa(dto);
+            await pessoaRepository.UpdatePessoa(dto);
         }
-        public void DeletePessoa(int pessoaId)
+        public async Task DeletePessoa(Guid pessoaId)
         {
-            pessoaRepository.DeletePessoa(pessoaId);
+            await pessoaRepository.DeletePessoa(pessoaId);
         }
     }
 }

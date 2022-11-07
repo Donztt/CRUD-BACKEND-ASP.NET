@@ -11,7 +11,7 @@ namespace CRUD_Cadastro.Model
     public class Pessoa
     {
         [Column("ID")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Column("NOME")]
         public string Nome { get; set; }
         [Column("CEP")]

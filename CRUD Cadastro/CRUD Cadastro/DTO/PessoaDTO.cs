@@ -9,7 +9,7 @@ namespace CRUD_Cadastro.DTO
 {
     public class PessoaDTO
     {
-        public int id { get; set; }
+        public Guid id { get; set; }
         public string? nome { get; set; }
         public string? cep { get; set; }
         public string? cpf { get; set; }
@@ -34,7 +34,7 @@ namespace CRUD_Cadastro.DTO
             };
         }
 
-        public Login toLogin(int id_pessoa)
+        public Login toLogin(Guid id_pessoa)
         {
             return new Login()
             {

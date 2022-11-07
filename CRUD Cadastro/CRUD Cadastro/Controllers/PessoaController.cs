@@ -38,7 +38,7 @@ namespace CRUD_Cadastro.Controllers
         }
 
         [HttpGet("/getPessoa/{id}")]
-        public async Task<ActionResult<PessoaDTO>> GetPessoa(int id)
+        public async Task<ActionResult<PessoaDTO>> GetPessoa(Guid id)
         {
             try 
             {
@@ -55,7 +55,7 @@ namespace CRUD_Cadastro.Controllers
         {
             try
             {
-                pessoaService.UpdatePessoa(pessoa);
+                await pessoaService.UpdatePessoa(pessoa);
                 return Ok();
             }
             catch (Exception)
@@ -70,7 +70,7 @@ namespace CRUD_Cadastro.Controllers
         {
             try
             {
-                pessoaService.SetPessoa(pessoa);
+                await pessoaService.SetPessoa(pessoa);
                 return Ok();
             }
             catch (Exception)
@@ -80,11 +80,11 @@ namespace CRUD_Cadastro.Controllers
         }
 
         [HttpPost("/deletePessoa/{id}")]
-        public async Task<IActionResult> DeletePessoa(int id)
+        public async Task<IActionResult> DeletePessoa(Guid id)
         {
             try
             {
-                pessoaService.DeletePessoa(id);
+                await pessoaService.DeletePessoa(id);
                 return Ok();
             }
             catch (Exception)

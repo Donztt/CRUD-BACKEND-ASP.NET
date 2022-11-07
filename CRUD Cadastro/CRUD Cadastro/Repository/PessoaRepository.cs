@@ -6,6 +6,7 @@ using CRUD_Cadastro.Settings;
 using CRUD_Cadastro.Model;
 using CRUD_Cadastro.DTO;
 using System.Linq;
+using System;
 
 namespace CRUD_Cadastro.Repository
 {
@@ -18,7 +19,7 @@ namespace CRUD_Cadastro.Repository
             _context = context;
         }
 
-        public async Task<Pessoa> GetPessoa(int id)
+        public async Task<Pessoa> GetPessoa(Guid id)
         {
             return await _context.Pessoa.FindAsync(id);
         }
@@ -26,22 +27,27 @@ namespace CRUD_Cadastro.Repository
         {
             return await _context.Pessoa.ToListAsync();
         }
-        public async void SetPessoa(PessoaDTO dto)
+        public async Task SetPessoa(PessoaDTO dto)
         {
-            var pessoaResult = _context.Pessoa.Add(dto.toPessoa());
-            _context.Login.Add(dto.toLogin(pessoaResult.Entity.Id));
+            dto.id = Guid.NewGuid();
+            _context.Pessoa.Add(dto.toPessoa());
+            _context.Login.Add(dto.toLogin(dto.id));
             await _context.SaveChangesAsync();
-        }
-        public async void UpdatePessoa(PessoaDTO dto)
+        } 
+        public async Task UpdatePessoa(PessoaDTO dto)
         {
             _context.Pessoa.Update(dto.toPessoa());
             await _context.SaveChangesAsync();
         }
-        public async void DeletePessoa(int pessoaId)
+        public async Task DeletePessoa(Guid pessoaId)
         {
-            await _context.Pessoa.FindAsync(pessoaId);
+            Pessoa pessoa = await _context.Pessoa.FindAsync(pessoaId);
+            Login login = await _context.Login.Where(l => l.Pessoa_id == pessoa.Id).FirstAsync();
+            _context.Login.Remove(login);
+            _context.Pessoa.Remove(pessoa);
+            await _context.SaveChangesAsync();
         }
-        private bool PessoaExists(int id)
+        private bool PessoaExists(Guid id)
         {
             return _context.Pessoa.Any(e => e.Id == id);
         }
